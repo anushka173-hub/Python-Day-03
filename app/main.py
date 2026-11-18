@@ -10,11 +10,10 @@ from app.routers import employees
 from app.routers import departments
 from app.routers import leaves
 from app.core.logging_config import setup_logging
+from app.routers import auth
 import logging
 
 setup_logging()
-
-app = FastAPI()
 
 app = FastAPI(
     title="Employee REST API",
@@ -28,3 +27,4 @@ logger.info("Employee API application started")
 app.include_router(employees.router)
 app.include_router(departments.router)
 app.include_router(leaves.router)
+app.include_router(auth.router)

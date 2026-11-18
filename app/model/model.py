@@ -1,5 +1,6 @@
 
 from sqlalchemy import (
+    Boolean,
     Column,
     Date,
     DateTime,
@@ -12,6 +13,8 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 
 from app.database.session import Base
+
+from sqlalchemy import Boolean
 
 
 class Department(Base):
@@ -72,3 +75,23 @@ class Leave(Base):
     )
 
     employee = relationship("Employee", back_populates="leaves")
+
+class User(Base):
+    __tablename__ = "users"
+
+    user_id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    hashed_password = Column(String(255), nullable=False)
+    role = Column(String(20), nullable=False)
+    employee_id = Column(
+        Integer,
+        ForeignKey("employees.employee_id"),
+        unique=True,
+        nullable=True,
+    )
+    is_active = Column(Boolean, default=True, nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
